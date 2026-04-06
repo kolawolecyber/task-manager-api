@@ -50,3 +50,7 @@ export const loginUser = async (data: any) => {
     },
   };
 };
+export const getAllUsersService = async () => {
+  
+  return await User.find({}, "name _id");
+};

@@ -15,6 +15,7 @@ export interface CreateTaskDTO {
 export interface UpdateTaskDTO {
   title?: string;
   description?: string;
-  status?: TaskStatus;
+ status?: "pending" | "in-progress" | "completed";
   assignedTo?: string;
+  dueDate?: Date | string;
 }

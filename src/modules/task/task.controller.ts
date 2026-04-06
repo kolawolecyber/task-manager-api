@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { Response } from "express";
 import { AuthRequest } from "../../shared/middlewares/auth.middleware";
 import * as taskService from "./task.service";
@@ -35,11 +36,17 @@ const toUpdateTaskDTO = (body: any) => {
 // =========================
 export const create = async (req: AuthRequest, res: Response) => {
   try {
-    if (!req.user) {
+    if (!req.user?.userId) {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
     const data = toCreateTaskDTO(req.body);
+    if (!mongoose.Types.ObjectId.isValid(data.assignedTo)) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "The 'Assign user ID' must be a valid 24-character MongoDB ID." 
+      });
+    }
 
     const task = await taskService.createTask(
       data,
@@ -51,6 +58,7 @@ export const create = async (req: AuthRequest, res: Response) => {
       data: task,
     });
   } catch (error: any) {
+    console.error("Task Creation Error:", error.message);
     return res.status(500).json({
       message: error.message,
     });
