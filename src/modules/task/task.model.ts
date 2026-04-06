@@ -7,7 +7,7 @@ export interface ITask extends Document {
   assignedTo: mongoose.Types.ObjectId;
   createdBy: mongoose.Types.ObjectId;
   dueDate?: Date;
-  createdAt: Date;
+  createdAt: Date; 
   updatedAt: Date;
 }
 
