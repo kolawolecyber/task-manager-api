@@ -1,16 +1,19 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import http from "http";
 import app from "./app";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
+
 import { initSocket } from "./config/socket";
 
-dotenv.config();
+
 
 const PORT = process.env.PORT || 5000;
 
 async function start() {
   try {
-    await mongoose.connect(process.env.MONGO_URI as string);
+    await mongoose.connect(process.env.MONGODB_URI as string);
 
     const server = http.createServer(app);
 
@@ -21,6 +24,7 @@ async function start() {
     });
   } catch (error) {
     console.error(error);
+    
   }
 }
 
